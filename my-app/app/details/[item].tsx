@@ -1,9 +1,9 @@
 import React from "react";
 import {
   ImageBackground,
+  Pressable,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
@@ -11,9 +11,11 @@ import {
 import COLORS from "@/constants/colors2";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import hotels from "@/constants/hotels";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
+import { style } from "@/constants/styles";
+import { useGlobalState } from "@/context/useGlobalState";
 const DetailsScreen = () => {
+ 
   const item = useLocalSearchParams();
   console.log(item.name, "myItem");
   return (
@@ -24,15 +26,16 @@ const DetailsScreen = () => {
         paddingBottom: 20,
       }}
     >
-      <Stack.Screen options={{ headerTitle: `News #${item.name}` }} />
       <StatusBar
         barStyle="light-content"
         translucent
         backgroundColor="rgba(0,0,0,0)"
       />
-      <ImageBackground style={style.headerImage} source={item.image}>
+      <ImageBackground style={style.headerImage} source={item?.image}>
         <View style={style.header}>
-          <Icon name="arrow-back-ios" size={28} color={COLORS.white} />
+          <Pressable onPress={() => router.back()}>
+            <Icon name="arrow-back-ios" size={28} color={COLORS.white} />
+          </Pressable>
           <Icon name="bookmark-border" size={28} color={COLORS.white} />
         </View>
       </ImageBackground>
@@ -114,6 +117,7 @@ const DetailsScreen = () => {
             </Text>
           </View>
         </View>
+
         <View style={style.btn}>
           <Text
             style={{ color: COLORS.white, fontSize: 18, fontWeight: "bold" }}
@@ -125,53 +129,5 @@ const DetailsScreen = () => {
     </ScrollView>
   );
 };
-
-const style = StyleSheet.create({
-  btn: {
-    height: 55,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-    backgroundColor: COLORS.primary,
-    marginHorizontal: 20,
-    borderRadius: 10,
-  },
-
-  priceTag: {
-    height: 40,
-    alignItems: "center",
-    marginLeft: 40,
-    paddingLeft: 20,
-    flex: 1,
-    backgroundColor: COLORS.secondary,
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-    flexDirection: "row",
-  },
-  iconContainer: {
-    position: "absolute",
-    height: 60,
-    width: 60,
-    backgroundColor: COLORS.primary,
-    top: -30,
-    right: 20,
-    borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerImage: {
-    height: 400,
-    borderBottomRightRadius: 40,
-    borderBottomLeftRadius: 40,
-    overflow: "hidden",
-  },
-  header: {
-    marginTop: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    marginHorizontal: 20,
-    justifyContent: "space-between",
-  },
-});
 
 export default DetailsScreen;

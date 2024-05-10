@@ -1,43 +1,52 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import "react-native-reanimated";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Drawer } from "expo-router/drawer";
+import { GlobalContextProvider } from "@/context/useGlobalState";
+import COLORS from "@/constants/colors2";
+import NavList from "@/components/NavList";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { Button } from "react-native";
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-  const router = useRouter();
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <GlobalContextProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Drawer>
+          <Drawer.Screen
+            name="index" // This is the name of the page and must match the url from root
+            options={{
+              drawerLabel: () => <NavList label="Home" />,
+              title: "Home",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: COLORS.primary,
+              },
+              headerTintColor: COLORS.white,
+            }}
+          />
+          <Drawer.Screen
+            name="details/[item]" // This is the name of the page and must match the url from root
+            options={{
+              drawerLabel: () => <NavList label="Hotel detailes" />,
+              title: "overview",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: COLORS.primary,
+              },
+              headerTintColor: COLORS.white,
+            }}
+          />
+          <Drawer.Screen
+            name="login" // This is the name of the page and must match the url from root
+            options={{
+              drawerLabel: () => <NavList label="Login" />,
+              title: "Login",
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: COLORS.primary,
+              },
+              headerTintColor: COLORS.white,
+            }}
+          />
+        </Drawer>
+      </GestureHandlerRootView>
+    </GlobalContextProvider>
   );
 }

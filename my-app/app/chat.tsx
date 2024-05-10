@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const modal = () => {
+const chat = () => {
   return (
     <View>
-      <Text>moodal</Text>
+      <Text>chat screen</Text>
     </View>
   );
 };
 
-export default modal;
+export default chat;
