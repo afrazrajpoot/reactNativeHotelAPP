@@ -9,6 +9,7 @@ import {
   View,
   Animated,
   Pressable,
+  Button,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -31,8 +32,13 @@ const index = () => {
   // const [state ,setState] = useState()
   const { data, setData } = useGlobalState();
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const [value, setValue] = useState<string>("");
 
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const test = () => {
+    setData(value);
+    router.push("Signup");
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={style.header}>
@@ -63,6 +69,7 @@ const index = () => {
           <TextInput
             placeholder="Search"
             style={{ fontSize: 20, paddingLeft: 10 }}
+            onChangeText={(text) => setValue((prev) => text)}
           />
         </View>
         <CategoryList />

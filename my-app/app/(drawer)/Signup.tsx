@@ -1,4 +1,6 @@
 import COLORS from "@/constants/colors2";
+import { useGlobalState } from "@/context/useGlobalState";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Text,
@@ -8,32 +10,43 @@ import {
   Button,
   TouchableHighlight,
 } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 // import { Button } from "react-native-paper";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
+  const [username, setUsername] = useState("");
+  const { data } = useGlobalState();
   const handleLogin = () => {
     // Logic to handle login
     console.log("Username:", username);
     console.log("Password:", password);
     // Add your authentication logic here
   };
-
+  if (data) {
+    router.push("/login");
+  }
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>Sign up</Text>
         <TextInput
           style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+          placeholder="Name"
+          onChangeText={(text) => setName(text)}
+          value={name}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="username"
+          onChangeText={(text) => setUsername(text)}
+          value={username}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="password"
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry
@@ -41,11 +54,14 @@ const Login = () => {
         {/* <Button style={styles.btn} onPress={handleLogin} textColor="white">
           Login
         </Button> */}
-        <TouchableHighlight>
-          <Text style={styles.btn} onPress={handleLogin}>
-            Login
-          </Text>
-        </TouchableHighlight>
+        <RectButton
+          style={styles.btn}
+          underlayColor={COLORS.primary}
+          rippleColor={"rgba(10, 10, 10, 0.5)"}
+        >
+          <Text style={{ color: "white" }}>Sign up</Text>
+        </RectButton>
+        <Text>{data}</Text>
       </View>
     </View>
   );

@@ -1,52 +1,43 @@
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
-import { GlobalContextProvider } from "@/context/useGlobalState";
 import COLORS from "@/constants/colors2";
-import NavList from "@/components/NavList";
+import { Stack } from "expo-router";
+import React from "react";
 
-export default function Layout() {
+const _layout = () => {
   return (
-    <GlobalContextProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer>
-          <Drawer.Screen
-            name="index" // This is the name of the page and must match the url from root
-            options={{
-              drawerLabel: () => <NavList label="Home" />,
-              title: "Home",
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: COLORS.primary,
-              },
-              headerTintColor: COLORS.white,
-            }}
-          />
-          <Drawer.Screen
-            name="details/[item]" // This is the name of the page and must match the url from root
-            options={{
-              drawerLabel: () => <NavList label="Hotel detailes" />,
-              title: "overview",
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: COLORS.primary,
-              },
-              headerTintColor: COLORS.white,
-            }}
-          />
-          <Drawer.Screen
-            name="login" // This is the name of the page and must match the url from root
-            options={{
-              drawerLabel: () => <NavList label="Login" />,
-              title: "Login",
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: COLORS.primary,
-              },
-              headerTintColor: COLORS.white,
-            }}
-          />
-        </Drawer>
-      </GestureHandlerRootView>
-    </GlobalContextProvider>
+    <Stack>
+      <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="BookNow"
+        options={{
+          headerShown: true,
+          title: "Book Now",
+          headerStyle: {
+            backgroundColor: COLORS.primary, // Set the background color of the header
+          },
+          headerTitleStyle: {
+            color: "white", // Set the text color of the header title
+            fontWeight: "bold", // Set the font weight of the header title
+          },
+          headerTintColor: "white", // Set the color of the back button and header title
+        }}
+      />
+      <Stack.Screen
+        name="details/[item]"
+        options={{
+          headerShown: true,
+          title: "Detail",
+          headerStyle: {
+            backgroundColor: COLORS.primary, // Set the background color of the header
+          },
+          headerTitleStyle: {
+            color: "white", // Set the text color of the header title
+            fontWeight: "bold", // Set the font weight of the header title
+          },
+          headerTintColor: "white", // Set the color of the back button and header title
+        }}
+      />
+    </Stack>
   );
-}
+};
+
+export default _layout;

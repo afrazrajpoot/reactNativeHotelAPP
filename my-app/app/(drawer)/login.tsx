@@ -8,12 +8,12 @@ import {
   Button,
   TouchableHighlight,
 } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 // import { Button } from "react-native-paper";
 
 const Login = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     // Logic to handle login
@@ -25,23 +25,16 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Sign up</Text>
+        <Text style={styles.title}>Login</Text>
         <TextInput
           style={styles.input}
-          placeholder="Name"
-          onChangeText={(text) => setName(text)}
-          value={name}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="username"
+          placeholder="Username"
           onChangeText={(text) => setUsername(text)}
           value={username}
         />
-
         <TextInput
           style={styles.input}
-          placeholder="password"
+          placeholder="Password"
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry
@@ -49,11 +42,13 @@ const Login = () => {
         {/* <Button style={styles.btn} onPress={handleLogin} textColor="white">
           Login
         </Button> */}
-        <TouchableHighlight>
-          <Text style={styles.btn} onPress={handleLogin}>
-            Sign up
-          </Text>
-        </TouchableHighlight>
+        <RectButton
+          style={styles.btn}
+          rippleColor={"rgba(10,10,10,11)"}
+          underlayColor={COLORS.primary}
+        >
+          <Text style={{ color: "white" }}>Login</Text>
+        </RectButton>
       </View>
     </View>
   );
