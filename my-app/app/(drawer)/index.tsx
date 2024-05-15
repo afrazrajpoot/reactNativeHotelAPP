@@ -44,7 +44,7 @@ const index = () => {
       <View style={style.header}>
         <View style={{ paddingBottom: 15 }}>
           <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-            Find your hotel
+            Find your Rastorant
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ fontSize: 30, fontWeight: "bold" }}>in </Text>

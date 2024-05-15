@@ -118,4 +118,57 @@ export const style = StyleSheet.create({
     borderBottomLeftRadius: 40,
     overflow: "hidden",
   },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    width: 300,
+    height: 400,
+    marginTop: -4,
+    maxWidth: "80%",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#000", // Assuming primary color is not defined here
+  },
+  input: {
+    height: 40,
+    borderBottomWidth: 3,
+    borderBottomColor: "#000", // Assuming primary color is not defined here
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  loginAndSignupBtn: {
+    backgroundColor: COLORS.primary, // Assuming primary color is not defined here
+    paddingVertical: 8,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    textAlign: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 10,
+  },
 });

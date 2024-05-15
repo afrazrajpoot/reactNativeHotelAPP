@@ -1,108 +1,97 @@
-import COLORS from "@/constants/colors2";
-import React, { useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  StyleSheet,
-  Button,
-  TouchableHighlight,
-} from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, TextInput, ActivityIndicator, Alert } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { RectButton } from "react-native-gesture-handler";
-// import { Button } from "react-native-paper";
+import COLORS from "@/constants/colors2";
+import { useLoginMutation } from "@/store/storeApi";
+
+import { router } from "expo-router";
+import { style } from "@/constants/styles";
+
+interface FormData {
+  name: string;
+  username: string;
+  password: string;
+}
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
+  const [signupMutation, { isLoading, isError, error, isSuccess }] =
+    useLoginMutation();
 
-  const handleLogin = () => {
-    // Logic to handle login
-    console.log("Username:", username);
-    console.log("Password:", password);
-    // Add your authentication logic here
+  const onSubmit = async (data: FormData) => {
+    signupMutation(data);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      Alert.alert("Login Successful", "Welcome back!", [
+        { text: "OK", onPress: () => router.push("/") },
+      ]);
+      reset();
+    }
+  }, [isSuccess]);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
+    <View style={style.container}>
+      <View style={style.formContainer}>
+        <Text style={style.title}>Login</Text>
+
+        <Controller
+          control={control}
+          render={({ field }: any) => (
+            <TextInput
+              style={style.input}
+              placeholder="Username"
+              onChangeText={field.onChange}
+              value={field.value}
+            />
+          )}
+          name="username"
+          rules={{ required: true }}
+          defaultValue=""
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry
+        {errors.username && <Text>This field is required.</Text>}
+
+        <Controller
+          control={control}
+          render={({ field }: any) => (
+            <TextInput
+              style={style.input}
+              placeholder="Password"
+              onChangeText={field.onChange}
+              value={field.value}
+              secureTextEntry
+            />
+          )}
+          name="password"
+          rules={{ required: true }}
+          defaultValue=""
         />
-        {/* <Button style={styles.btn} onPress={handleLogin} textColor="white">
-          Login
-        </Button> */}
+        {errors.password && <Text>This field is required.</Text>}
+
         <RectButton
-          style={styles.btn}
+          style={style.loginAndSignupBtn}
           rippleColor={"rgba(10,10,10,11)"}
           underlayColor={COLORS.primary}
+          onPress={handleSubmit(onSubmit)}
+          disabled={isLoading}
         >
-          <Text style={{ color: "white" }}>Login</Text>
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={{ color: "white" }}>Login</Text>
+          )}
         </RectButton>
+        {isError && <Text style={style.error}>Login failed</Text>}
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-  },
-  formContainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    width: 300,
-    height: 400,
-    marginTop: -4,
-    maxWidth: "80%",
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-    fontWeight: "bold",
-    color: COLORS.primary,
-  },
-  input: {
-    height: 40,
-    borderBottomWidth: 3,
-    borderBottomColor: COLORS.primary,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-  },
-  btn: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 8,
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    textAlign: "center",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-});
 
 export default Login;
